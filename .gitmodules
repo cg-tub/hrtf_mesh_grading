@@ -1,0 +1,3 @@
+[submodule "pmp-library"]
+	path = pmp-library
+	url = git@github.com:cg-tub/pmp-library.git
