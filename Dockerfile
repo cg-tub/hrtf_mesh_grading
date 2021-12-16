@@ -7,7 +7,7 @@ FROM ubuntu:20.04
 # All commands are run from this path
 WORKDIR /home
 
-# Configure tzdata and timezone (need during `apt install cmake`)
+# Configure tzdata and timezone problems appear during `apt-get install cmake`
 #ENV TZ=Europe/Berlin
 #RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
