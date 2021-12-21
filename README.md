@@ -8,7 +8,7 @@ https://cg-tub.github.io/hrtf_mesh_grading/
 
 ## Getting Started
 
-**Clone the repository:**
+### Clone the repository
 
 ```sh
 git clone --recursive https://github.com/cg-tub/hrtf_mesh_grading.git
@@ -22,15 +22,34 @@ cd hrtf-mesh-hrtf_mesh_grading
 git clone --recursive https://github.com/cg-tub/pmp-library.git
 ```
 
-**Configure and build:**
+### Configure and build
+
+There are two options for building the project from which you can chose:
+
+**1. Locally**
+
+Build the project locally on your machine. This could work on Linux, MacOS, and
+Windows, however, we only test on Linux. Note that this requires the dependencies
+listed at [PMP-Library installation](https://www.pmp-library.org/installation.html)
+together with more detailed instructions for installation.
 
 ```sh
 cd pmp-library && mkdir build && cd build && cmake .. && make
 ```
 
-Note that this requires the dependencies listed at [PMP-Library installation](https://www.pmp-library.org/installation.html) together with more detailed instructions for installation.
+**2. Docker Container**
 
-**Run the mesh processing app:**
+Build a docker container to run the mesh-grading inside the container. Note that
+this requires [Docker](https://www.docker.com/). To build and run the container
+use
+
+```sh
+docker build --tag ubuntu:hrt-mesh-grading .
+docker run -dit --name hrt-mesh-grading ubuntu:hrt-mesh-grading /bin/bash
+```
+
+
+### Run the mesh processing app
 
 ```sh
 ./mpview ../example_models/head.ply
