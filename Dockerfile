@@ -1,6 +1,14 @@
-# to build and run use:
+# Here is some help for using the Dockerfile. For more information refer to
+# docker.com
+#
+# Build the container:
 # docker build --tag ubuntu:hrt-mesh-grading .
+#
+# Start the container with out an external volume:
 # docker run -dit --name hrt-mesh-grading ubuntu:hrt-mesh-grading /bin/bash
+#
+# Start the container with an external volume mounted at /home/data:
+# docker run -dit --name hrt-mesh-grading -v '/local/folder:/home/data' ubuntu:hrt-mesh-grading /bin/bash
 
 FROM ubuntu:20.04
 
@@ -34,3 +42,6 @@ RUN cd pmp-library && mkdir build && cd build && cmake .. && make && make instal
 # add libpmp to the search path
 RUN echo /usr/local/lib > /etc/ld.so.conf.d/local.conf
 RUN ldconfig
+
+# add symbolic link for hrtf-mesh-grading
+RUN ln -s /home/pmp-library/build/hrtf_mesh_grading /usr/local/bin
