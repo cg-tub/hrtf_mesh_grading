@@ -80,7 +80,18 @@ license, thereby allowing for both open-source and commercial usage.
 
 ## Differences of forked version
 
-For implementing the HRTF mesh grading, changes in SurfaceRemeshing.cpp and MeshProcessingViewer.cpp have been made and `hrtf-mesh-grading` was added to `pmp-library/src/apps`.
+The following changes were made to the original [PMP library](https://github.com/pmp-library/pmp-library)
+
+- HRTF remeshing algorithm was added to
+`pmp-library/src/pmp/algorithms/SurfaceRemeshing.cpp`
+
+- `pmp-library/src/apps/MeshProcessingViewer.cpp` was updated to include the
+HRTF remeshing algorithm
+
+- The command line application `pmp-library/src/apps/hrtf-mesh-grading` was
+added. It calls `SurfaceRemeshing.cpp`
+
+- The command line application was added to `pmp-library/src/apps/CMakeList.txt`
 
 # Maintainance
 
