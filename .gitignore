@@ -33,3 +33,7 @@
 
 # VSCode settings
 .vscode/
+
+# test files
+tests/test_data/
+tests/__pycache__
