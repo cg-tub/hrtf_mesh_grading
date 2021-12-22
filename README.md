@@ -81,3 +81,20 @@ license, thereby allowing for both open-source and commercial usage.
 ## Differences of forked version
 
 For implementing the HRTF mesh grading, changes in SurfaceRemeshing.cpp and MeshProcessingViewer.cpp have been made and `hrtf-mesh-grading` was added to `pmp-library/src/apps`.
+
+# Maintainance
+
+Some reminders for the developers.
+
+To update the pmp-library submodule use
+```sh
+git submodule update --remote pmp-library
+```
+
+Manualy compile hrtf-mesh-grading command line application
+```sh
+g++ hrtf-mesh-grading.cpp -o hrtf-mesh-grading -I /usr/include/eigen3/ /usr/local/lib/libpmp.so
+```
+
+Running the tests requires the Python packages `docker`, `numpy`, and
+`trimesh`.
