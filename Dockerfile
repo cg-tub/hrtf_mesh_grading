@@ -5,10 +5,10 @@
 # docker build --tag ubuntu:hrt-mesh-grading .
 #
 # Start the container with out an external volume:
-# docker run -dit --name hrt-mesh-grading ubuntu:hrt-mesh-grading /bin/bash
+# docker run -dit --name hrtf-mesh-grading ubuntu:hrt-mesh-grading /bin/bash
 #
 # Start the container with an external volume mounted at /home/data:
-# docker run -dit --name hrt-mesh-grading -v '/local/folder:/home/data' ubuntu:hrt-mesh-grading /bin/bash
+# docker run -dit --name hrtf-mesh-grading -v '/local/folder:/home/data' ubuntu:hrt-mesh-grading /bin/bash
 
 FROM ubuntu:20.04
 
