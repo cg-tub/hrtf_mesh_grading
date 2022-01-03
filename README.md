@@ -10,7 +10,18 @@ https://cg-tub.github.io/hrtf_mesh_grading/
 
 ## Getting Started
 
-### Clone the repository
+Although the PMP library can also be used on Windows and MacOS, we only support
+Linux. There are two options for getting started with the HRTF mesh grading:
+
+1. Clone the repository and locally build the code
+2. Use a pre-compiled docker image (requires [docker](https://www.docker.com/))
+
+Both options will make the `hrtf_mesh_grading` tool available as explained in
+
+3. HRTF mesh grading
+
+### 1. Clone and build locally
+**Clone the repository**
 
 ```sh
 git clone --recursive https://github.com/cg-tub/hrtf_mesh_grading.git
@@ -24,11 +35,11 @@ cd hrtf-mesh-hrtf_mesh_grading
 git clone --recursive https://github.com/cg-tub/pmp-library.git
 ```
 
-### Configure and build
+**Configure and build**
 
 There are two options for building the project from which you can chose:
 
-**1. Locally**
+*Locally*
 
 Build the project locally on your machine. This could work on Linux, MacOS, and
 Windows, however, we only test on Linux. Note that this requires the dependencies
@@ -39,46 +50,74 @@ together with more detailed instructions for installation.
 cd pmp-library && mkdir build && cd build && cmake .. && make
 ```
 
-**2. Docker Container**
+*Docker Container*
 
 Build a docker container to run the mesh-grading inside the container. Note that
 this requires [Docker](https://www.docker.com/). To build and run the container
 use
 
 ```sh
-docker build --tag ubuntu:hrt-mesh-grading .
-docker run -dit --name hrt-mesh-grading ubuntu:hrt-mesh-grading /bin/bash
+docker build --tag ubuntu:hrtf-mesh-grading .
+docker run -dit --name hrtf-mesh-grading ubuntu:hrtf-mesh-grading /bin/bash
 ```
 
-### Remeshing
+### 2. Use pre-compiled docker image
+
+Pull the docker image with
+
+```sh
+docker pull fabrin/hrtf-mesh-grading
+```
+
+### 3. HRTF mesh grading
 
 The binary for remeshing is located at
 ```sh
-pmp-library/build/hrtf_mesh-grading
+pmp-library/build/hrtf_mesh_grading
 ```
 
-After it has been added to you search path, e.g., via a symbolic link
+**Mesh grading without docker**
+
+Add it to you search path, e.g., via a symbolic link
 ```sh
-ln -s pmp-library/build/hrtf_mesh-grading /usr/local/bin
+ln -s pmp-library/build/hrtf_mesh_grading /usr/local/bin
 ```
 
-it can be used via
+Use the mesh grading via
 ```sh
-hrtf-mesh-grading -x 0.5 -y 10 -s "left" -i data/head.ply -o data/head_graded_left.ply
+hrtf_mesh_grading -x 0.5 -y 10 -s "left" -i data/head.ply -o data/head_graded_left.ply
 ```
 
-For more information call
+Call without any parameters for getting the complete description
 ```sh
-hrtf-mesh-grading
+hrtf_mesh_grading
 ```
-without any parameters.
+
+**Mesh grading with docker**
+
+In this case you need to run the docker container before you start with the mesh grading.
+This can be done with
+```sh
+docker run -dit --name hrtf-mesh-grading -v '</local/folder>:/home/data' <tag> /bin/bash
+```
+
+- `</local/folder>` should be the absolute path to a folder on your disc containing
+the meshes for grading, e.g., the `data` folder inside this repository (without `<` and `>`).
+- `<tag>` is the tag of the docker container. If you followed *1 Clone and build locally* it is `ubuntu:hrtf-mesh-grading`. If you followed *2 Use pre-compiled docker image* it is `fabrin/hrtf-mesh-grading`.
+
+Once the container is running, you have different options for using it
+- use the [exec command](https://docs.docker.com/engine/reference/commandline/exec/), e.g., `docker exec hrtf-mesh-grading hrtf_mesh_grading` (Note that hrtf-mesh-grading is the name of the container and hrtf_mesh_grading the command to be executed)
+- use the [Python API](https://docker-py.readthedocs.io/en/stable/)
+- Start the container's command line interface from the [Docker Desktop app](https://www.docker.com/products/docker-desktop).
+
+For more examples see *Mesh grading without docker*.
 
 ## License
 
 The code is provided under a simple and flexible MIT-style
 license, thereby allowing for both open-source and commercial usage.
 
-## Differences of forked version
+## Differences to forked version
 
 The following changes were made to the original [PMP library](https://github.com/pmp-library/pmp-library)
 
