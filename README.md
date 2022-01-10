@@ -31,7 +31,7 @@ Note that recursive cloning requires SSH key and we recommend that you [generati
 
 ```sh
 git clone https://github.com/cg-tub/hrtf_mesh_grading.git
-cd hrtf-mesh-hrtf_mesh_grading
+cd hrtf_mesh_grading
 git clone --recursive https://github.com/cg-tub/pmp-library.git
 ```
 
