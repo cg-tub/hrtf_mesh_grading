@@ -69,7 +69,16 @@ Pull the docker image with
 docker pull fabrin/hrtf-mesh-grading
 ```
 
-### 3. HRTF mesh grading
+### 3. Mesh preparation
+
+Please note that the mesh grading tool expects the mesh to meet the following requirements
+- The interaural center must be in the origin of coordinates. The interaural center is the midpoint between the axis that passes through the left and right ear channel entrances.
+- The mesh must be viewing in positive x-direction with the y-axis acting as the interaural axis, i.e., the left ear is pointing in positive y-direction.
+- The unit of the mesh must be millimeter.
+
+If you are using Blender for exporting meshes, make sure to apply all transforms before exporting, export only the selected object, and use the settings `Forward: Y Forward` and `Up: Z up` during export.
+
+### 4. HRTF mesh grading
 
 The binary for remeshing is located at
 ```sh
