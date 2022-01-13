@@ -176,7 +176,9 @@ if test_verbosity:
     print('\nTest verbosity')
 
     lines = ['input:', 'output:', 'side:', 'min. edge length: ',
-             'max. edge length: ', 'max. error: ',
+             'max. edge length: ', 'max. error: ', 'gamma scaling left/right',
+             'estimated ear channel entrance left',
+             'estimated ear channel entrance right',
              'Faces before remeshing: ', 'Faces after remeshing: ']
 
     # use with verbosity
