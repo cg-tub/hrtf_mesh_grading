@@ -163,6 +163,6 @@ docker pull fabrin/hrtf-mesh-grading
 
 Running the tests requires
 ```sh
-conda install docker-py numpy
+conda install docker-py numpy pillow
 pip install trimesh
 ```
