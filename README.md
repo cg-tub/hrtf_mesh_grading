@@ -155,5 +155,14 @@ Manualy compile hrtf-mesh-grading command line application
 g++ hrtf-mesh-grading.cpp -o hrtf-mesh-grading -I /usr/include/eigen3/ /usr/local/lib/libpmp.so
 ```
 
-Running the tests requires the Python packages `docker`, `numpy`, and
-`trimesh`.
+To update the docker image on hub.docker run
+```sh
+docker build -t fabrin/hrtf-mesh-grading .
+docker pull fabrin/hrtf-mesh-grading
+```
+
+Running the tests requires
+```sh
+conda install docker-py numpy
+pip install trimesh
+```
