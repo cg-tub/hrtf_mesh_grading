@@ -34,6 +34,7 @@ docker_name = 'hrt-mesh-grading'        # used for running the container
 test_against_reference = True
 test_verbosity = True
 test_error_value = True
+test_gamma_parameters = True
 test_writing_binray_files = True
 test_assertions = True
 
@@ -176,7 +177,9 @@ if test_verbosity:
     print('\nTest verbosity')
 
     lines = ['input:', 'output:', 'side:', 'min. edge length: ',
-             'max. edge length: ', 'max. error: ',
+             'max. edge length: ', 'max. error: ', 'gamma scaling left/right',
+             'estimated ear channel entrance left',
+             'estimated ear channel entrance right',
              'Faces before remeshing: ', 'Faces after remeshing: ']
 
     # use with verbosity
@@ -225,6 +228,67 @@ if test_error_value:
     exit_code, output = exec(container, command, False)
     assert exit_code == 0
     assert "max. error: 2" in output
+
+    del command, exit_code, output
+
+
+if test_gamma_parameters:
+    """
+    Test default and user value for gamma parameter `-g` and `-h`
+    """
+    print('\nTest gamma parameters')
+
+    # use with default gamma parameters
+    command = (f"hrtf_mesh_grading -v -x 1 -y 10 -s left "
+               f"-i {folders['mount'] + '/head.ply'} "
+               f"-o {folders['mount'] + '/head_tmp.ply'} ")
+
+    exit_code, output = exec(container, command, False)
+
+    assert exit_code == 0
+    assert "gamma scaling left/right: 0.15/0.15" in output
+    assert "estimated ear channel entrance left:   65.4298" in output
+    assert "estimated ear channel entrance right: -68.3508" in output
+    assert "after remeshing:  13950" in output
+
+    # use with left ear custom gamma parameter
+    command = ("hrtf_mesh_grading -v -x 1 -y 10 -s 'left' -g 0.18 "
+               f"-i {folders['mount'] + '/head.ply'} "
+               f"-o {folders['mount'] + '/head_tmp.ply'} ")
+
+    exit_code, output = exec(container, command, False)
+
+    assert exit_code == 0
+    assert "gamma scaling left/right: 0.18/0.15" in output
+    assert "estimated ear channel entrance left:   59.6963" in output
+    assert "estimated ear channel entrance right: -68.3508" in output
+    assert "after remeshing:  13830" in output
+
+    # use with right ear custom gamma parameter
+    command = ("hrtf_mesh_grading -v -x 1 -y 10 -s 'left' -h 0.2 "
+               f"-i {folders['mount'] + '/head.ply'} "
+               f"-o {folders['mount'] + '/head_tmp.ply'} ")
+
+    exit_code, output = exec(container, command, False)
+
+    assert exit_code == 0
+    assert "gamma scaling left/right: 0.15/0.2" in output
+    assert "estimated ear channel entrance left:   65.4298" in output
+    assert "estimated ear channel entrance right: -58.795" in output
+    assert "after remeshing:  13942" in output
+
+    # use with two custom gamma parameters
+    command = ("hrtf_mesh_grading -v -x 1 -y 10 -g 0 -s 'left' -g 0.18 -h 0.2 "
+               f"-i {folders['mount'] + '/head.ply'} "
+               f"-o {folders['mount'] + '/head_tmp.ply'} ")
+
+    exit_code, output = exec(container, command, False)
+
+    assert exit_code == 0
+    assert "gamma scaling left/right: 0.18/0.2" in output
+    assert "estimated ear channel entrance left:   59.6963" in output
+    assert "estimated ear channel entrance right: -58.795" in output
+    assert "after remeshing:  13858" in output
 
     del command, exit_code, output
 
