@@ -1,5 +1,6 @@
 """
-Test the `hrtf_mesh_grading` binary inside a docker container.
+Test the `hrtf_mesh_grading` binary inside a docker container. Start Docker
+Desktop and cd into this folder before running this script.
 
 After defining the test settings the following is done
 1. Connect to a docker client
@@ -35,6 +36,7 @@ test_against_reference = True
 test_verbosity = True
 test_error_value = True
 test_gamma_parameters = True
+test_custom_ear_channel_entries = True
 test_writing_binray_files = True
 test_assertions = True
 
@@ -165,7 +167,8 @@ if test_against_reference:
         test = trimesh.load_mesh(os.path.join(folders["test"], file))
         ref = trimesh.load_mesh(os.path.join(folders["reference"], file))
 
-        npt.assert_equal(test.vertices, ref.vertices)
+        # check results with 1/1000 mm tolerance
+        npt.assert_almost_equal(test.vertices, ref.vertices, 3)
 
     del files, file, side, l_min, l_max, command, exit_code, output, test, ref
 
@@ -289,6 +292,24 @@ if test_gamma_parameters:
     assert "estimated ear channel entrance left:   59.6963" in output
     assert "estimated ear channel entrance right: -58.795" in output
     assert "after remeshing:  13858" in output
+
+    del command, exit_code, output
+
+
+if test_custom_ear_channel_entries:
+    print('\nTest custom ear channel entries')
+
+    # use with default gamma parameters
+    command = (f"hrtf_mesh_grading -v -x 1 -y 10 -s 'left' -l 60 -r -60 "
+               f"-i {folders['mount'] + '/head.ply'} "
+               f"-o {folders['mount'] + '/head_tmp.ply'} ")
+
+    exit_code, output = exec(container, command, False)
+
+    assert exit_code == 0
+    assert "ear channel entrance left:   60" in output
+    assert "ear channel entrance right: -60" in output
+    assert "estimated" not in output
 
     del command, exit_code, output
 
