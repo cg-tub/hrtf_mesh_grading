@@ -74,7 +74,7 @@ docker pull fabrin/hrtf-mesh-grading
 Please note that the mesh grading tool expects the mesh to meet the following requirements
 - The interaural center must be in the origin of coordinates. The interaural center is the midpoint between the axis that passes through the left and right ear channel entrances.
 - The mesh must be viewing in positive x-direction with the y-axis acting as the interaural axis, i.e., the left ear is pointing in positive y-direction.
-- The unit of the mesh must be millimeter.
+- The mesh must be watertight (does not have any holes) and clean (no duplicate vertices or edges, no isolated vertices or edges, and no overlapping faces). This can for example be checked with the Blender 3D print addon.
 
 If you are using Blender for exporting meshes, make sure to apply all transforms before exporting, export only the selected object, and use the settings `Forward: Y Forward` and `Up: Z up` during export.
 
@@ -121,6 +121,15 @@ Once the container is running, you have different options for using it
 
 For more examples see *Mesh grading without docker*.
 
+## Trouble shooting
+
+In some cases the mesh grading fails
+
+- make sure the mesh meets all requirements listed in the section `Mesh preparation`
+- Try to move the reference point of the ear channel entrance a little closer to the origin. This can be done using the gamma scaling parameters `-g` and `-h` or by directly passing a y-coordinate with the paramerers `-l` and `-r`
+
+In some cases there are small triangles left at the contralateral ear. In this case try to move the reference point of the ear channel entrance of the contralateral ear closer to the origin (see above).
+
 ## License
 
 The code is provided under a simple and flexible MIT-style
@@ -163,6 +172,5 @@ docker pull fabrin/hrtf-mesh-grading
 
 Running the tests requires
 ```sh
-conda install docker-py numpy pillow
-pip install trimesh
+pip install docker trimesh numpy
 ```
