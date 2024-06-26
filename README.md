@@ -172,5 +172,5 @@ docker pull fabrin/hrtf-mesh-grading
 
 Running the tests requires
 ```sh
-pip install docker trimesh numpy
+pip install docker trimesh numpy pytest
 ```
