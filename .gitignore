@@ -34,6 +34,9 @@
 # VSCode settings
 .vscode/
 
+# macOS specific files
+.DS_Store
+
 # test files
 tests/test_data/
 tests/__pycache__
