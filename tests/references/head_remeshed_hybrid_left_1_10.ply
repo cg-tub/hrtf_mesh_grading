@@ -1,12 +1,12 @@
 ply
 format ascii 1.0
-comment File written with pmp-library
+comment Created in Blender version 4.1.1
 element vertex 6977
 property float x
 property float y
 property float z
 element face 13950
-property list uchar int vertex_indices
+property list uchar uint vertex_indices
 end_header
 10.2968 -77.9789 45.6071
 -19.7229 82.6007 10.0552
