@@ -30,11 +30,11 @@ from requests.exceptions import HTTPError
 # (required if it does not exist, takes a couple of minutes)
 build_container = False
 # Set to False if the container is already running to speed up repeated testing
-run_container = False
+run_container = True
 # Copy and compile local pmp-library.
-compile_pmp = False
-# Do a complete new compile
-make_clean = False
+compile_pmp = True
+# Do a complete new compile by removing the build directory (if it exists)
+remove_build = True
 
 # tag and name of the docker container
 docker_tag = 'ubuntu:hrt-mesh-grading'  # used for building the container
@@ -143,7 +143,7 @@ if build_container:
 # run the container
 if run_container:
     # newly run the container
-    stop_and_remove_container()
+    stop_and_remove_container(client)
 
     print('\nStarting the container')
     container = client.containers.run(
@@ -166,11 +166,12 @@ if compile_pmp:
     print('\nCompiling local pmp-library')
 
     command = ['rm -r pmp-library', 'cp -r pmp-dev pmp-library',
-               'cd pmp-library', 'mkdir -p build', 'cd build', 'cmake ..']
-    if make_clean:
-        command.append('make clean')
+               'cd pmp-library']
+    if remove_build:
+        command.append('[ -d build ] && rm -rf build')
 
-    command.append('make -j && make install')
+    command.append(('mkdir -p build && cd build && cmake .. && '
+                    'make -j && make install'))
     command = ' && '.join(command)
 
     exit_code, output = exec(container, command, False)
